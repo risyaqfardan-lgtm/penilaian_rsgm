@@ -60,13 +60,22 @@ if (isset($_POST['login'])) {
             --ink-900: #12211a;
         }
 
+        html, body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            background-color: var(--forest-900); /* biar overscroll/bounce di HP nggak nampilin warna putih asli device */
+            overscroll-behavior: none; /* matikan efek "mantul" pas discroll kelewat ujung */
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
-            display: flex; align-items: center; justify-content: center;
+            min-height: 100dvh; /* viewport dinamis: lebih akurat di HP (address bar naik-turun) */
             background: radial-gradient(120% 140% at 15% 0%, #175a40 0%, var(--forest-900) 65%);
             position: relative;
-            overflow: hidden;
+            overflow-x: hidden; /* cegah scroll horizontal, tapi tetap boleh scroll vertikal kalau layarnya pendek */
+            margin: 0;
         }
 
         body::before {
@@ -78,14 +87,33 @@ if (isset($_POST['login'])) {
 
         h4, .brand-font { font-family: 'Poppins', sans-serif; }
 
-        .login-wrap { position: relative; z-index: 2; width: 100%; max-width: 400px; text-align: center; }
-
         /*
-          Logo pakai file putih (aset/Logo RSGM - Vector list putih.png),
-          jadi ditaruh di atas background gelap, di LUAR kartu putih,
-          supaya tetap terlihat jelas.
+          Teknik centering paling stabil: .login-wrap di-absolute-kan lalu
+          ditarik pakai transform translate(-50%, -50%) berdasarkan UKURAN
+          WRAP ITU SENDIRI. Karena logo diposisikan absolute (dikeluarkan
+          dari alur normal), tinggi .login-wrap = tinggi .login-card SAJA,
+          jadi yang di-center murni kartunya, bukan gabungan logo+kartu.
         */
-        .logo-mark { height: 56px; width: auto; filter: drop-shadow(0 6px 14px rgba(0,0,0,0.35)); margin-bottom: 20px; }
+        .login-wrap {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%; max-width: 400px;
+            padding: 0 16px;
+            box-sizing: border-box;
+            z-index: 2;
+        }
+
+        .login-header {
+            position: absolute;
+            left: 0; right: 0; bottom: 100%; /* nempel persis di atas tepi atas .login-wrap (= atas kartu) */
+            margin-bottom: 20px;
+            display: flex; justify-content: center;
+            padding: 0 16px;
+            box-sizing: border-box;
+        }
+
+        .logo-mark { height: 56px; width: auto; filter: drop-shadow(0 6px 14px rgba(0,0,0,0.35)); }
 
         .login-card {
             background: #ffffff;
@@ -93,6 +121,7 @@ if (isset($_POST['login'])) {
             border-radius: 20px;
             box-shadow: 0 25px 60px rgba(0,0,0,0.35);
             width: 100%;
+            box-sizing: border-box;
             text-align: left;
         }
 
@@ -112,38 +141,40 @@ if (isset($_POST['login'])) {
 <body>
 
     <div class="login-wrap">
-        <img class="logo-mark" src="aset/Logo%20RSGM%20-%20Vector%20list%20putih.png" alt="Logo RSGM Unimus">
-
-        <div class="login-card">
-        <div class="text-center mb-4">
-            <h4 class="fw-bold mb-1" style="color: var(--forest-900);">RSGM Admin</h4>
-            <p class="text-muted small mb-0">Silakan login untuk mengakses dashboard</p>
+        <div class="login-header">
+            <img class="logo-mark" src="aset/Logo%20RSGM%20-%20Vector%20list%20putih.png" alt="Logo RSGM Unimus">
         </div>
 
-        <?php if($error): ?>
-            <div class="alert alert-danger py-2 text-center small fw-semibold">
-                Username atau Password salah!
+        <div class="login-card">
+            <div class="text-center mb-4">
+                <h4 class="fw-bold mb-1" style="color: var(--forest-900);">RSGM Admin</h4>
+                <p class="text-muted small mb-0">Silakan login untuk mengakses dashboard</p>
             </div>
-        <?php endif; ?>
 
-        <form action="" method="POST">
-            <div class="mb-3">
-                <label class="form-label fw-semibold text-secondary small">Username</label>
-                <div class="input-group">
-                    <span class="input-group-text bg-light"><i class="fa-solid fa-user text-muted"></i></span>
-                    <input type="text" name="username" class="form-control" placeholder="Masukkan username" required>
+            <?php if($error): ?>
+                <div class="alert alert-danger py-2 text-center small fw-semibold">
+                    Username atau Password salah!
                 </div>
-            </div>
-            <div class="mb-4">
-                <label class="form-label fw-semibold text-secondary small">Password</label>
-                <div class="input-group">
-                    <span class="input-group-text bg-light"><i class="fa-solid fa-lock text-muted"></i></span>
-                    <input type="password" name="password" class="form-control" placeholder="Masukkan password" required>
+            <?php endif; ?>
+
+            <form action="" method="POST">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold text-secondary small">Username</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light"><i class="fa-solid fa-user text-muted"></i></span>
+                        <input type="text" name="username" class="form-control" placeholder="Masukkan username" required>
+                    </div>
                 </div>
-            </div>
-            <button type="submit" name="login" class="btn btn-login w-100 mb-3">Login ke Dashboard</button>
-            <a href="index.php" class="back-link d-block text-center text-decoration-none small"><i class="fa-solid fa-arrow-left me-1"></i> Kembali ke Form Pasien</a>
-        </form>
+                <div class="mb-4">
+                    <label class="form-label fw-semibold text-secondary small">Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light"><i class="fa-solid fa-lock text-muted"></i></span>
+                        <input type="password" name="password" class="form-control" placeholder="Masukkan password" required>
+                    </div>
+                </div>
+                <button type="submit" name="login" class="btn btn-login w-100 mb-3">Login ke Dashboard</button>
+                <a href="index.php" class="back-link d-block text-center text-decoration-none small"><i class="fa-solid fa-arrow-left me-1"></i> Kembali ke Form Pasien</a>
+            </form>
         </div>
     </div>
 
