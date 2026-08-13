@@ -32,10 +32,17 @@
 
         * { box-sizing: border-box; }
 
+        html {
+            background-color: var(--bg); /* biar overscroll/bounce di HP nggak nampilin putih polos */
+            overscroll-behavior: none;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg);
             color: var(--ink-900);
+            margin: 0;
+            overscroll-behavior: none;
         }
 
         h1, h2, h3, h4, h5, .brand-font {
@@ -68,6 +75,29 @@
             width: 380px; height: 380px;
             background: radial-gradient(circle, rgba(255,201,60,0.18) 0%, rgba(255,201,60,0) 70%);
             z-index: -1;
+        }
+
+        /* Link kecil ke halaman login admin, pojok kanan atas hero */
+        .admin-login-link {
+            position: absolute;
+            top: 20px; right: 20px;
+            z-index: 3;
+            display: inline-flex; align-items: center;
+            background: rgba(255,255,255,0.10);
+            border: 1px solid rgba(255,255,255,0.22);
+            color: rgba(255,255,255,0.9);
+            font-size: 0.8rem; font-weight: 500;
+            padding: 8px 14px;
+            border-radius: 999px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .admin-login-link:hover {
+            background: rgba(255,255,255,0.2);
+            color: #fff;
+        }
+        @media (max-width: 576px) {
+            .admin-login-link { top: 14px; right: 14px; font-size: 0.7rem; padding: 6px 10px; }
         }
 
         .hero-wave {
@@ -223,6 +253,11 @@
     <div class="hero-section text-center">
         <div class="hero-texture"></div>
         <div class="hero-glow"></div>
+
+        <a href="login.php" class="admin-login-link">
+            <i class="fa-solid fa-user-shield me-1"></i> Login Admin
+        </a>
+
         <div class="container position-relative pt-4">
             <img class="logo-mark" src="aset/Logo%20RSGM%20-%20Vector%20list%20putih.png" alt="Logo RSGM Unimus">
             <div class="hero-eyebrow-plain">Care for The Excellence</div>
