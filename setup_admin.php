@@ -1,16 +1,4 @@
 <?php
-/**
- * FILE SEKALI-JALAN — untuk membuat/reset akun admin dengan password
- * yang ter-hash dengan BENAR (bukan teks polos).
- *
- * Cara pakai:
- * 1. Upload file ini ke folder yang sama dengan koneksi.php.
- * 2. Buka lewat browser, contoh: http://penilaian_rsgm.test/setup_admin.php
- * 3. Baca hasilnya di layar.
- * 4. Coba login pakai username & password di bawah ini.
- * 5. HAPUS file ini dari server setelah berhasil login — jangan dibiarkan
- *    nongkrong, karena siapa pun yang tahu URL-nya bisa reset password admin.
- */
 
 require 'koneksi.php';
 
