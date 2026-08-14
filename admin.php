@@ -70,7 +70,11 @@ while($r = $q_sumber->fetch_assoc()){
             --border: #dde8e2;
         }
 
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--ink-900); }
+        html {
+            background-color: var(--bg); /* biar overscroll/bounce di HP nggak nampilin putih polos */
+            overscroll-behavior: none;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--ink-900); margin: 0; overscroll-behavior: none; }
         h1,h2,h3,h4,h5,.brand-font { font-family: 'Poppins', sans-serif; }
 
         .navbar-admin {
@@ -196,7 +200,8 @@ while($r = $q_sumber->fetch_assoc()){
                         <thead>
                             <tr>
                                 <th>Pasien & Kontak</th>
-                                <th>Layanan & Sumber</th>
+                                <th>Layanan</th>
+                                <th>Sumber Informasi</th>
                                 <th>Rating</th>
                                 <th>Detail Ulasan</th>
                                 <th>Tanggal</th>
@@ -218,8 +223,10 @@ while($r = $q_sumber->fetch_assoc()){
                                             <div class='text-muted small mt-1'><i class='fa-solid fa-phone me-1'></i> ".$kontak."</div>
                                         </td>
                                         <td>
-                                            <span class='badge-soft-primary d-inline-block mb-2'>".htmlspecialchars($row['jenis_layanan'])."</span><br>
-                                            <small class='text-muted'><i class='fa-solid fa-bullhorn me-1'></i> ".htmlspecialchars($row['sumber_info'])."</small>
+                                            <span class='badge-soft-primary d-inline-block'>".htmlspecialchars($row['jenis_layanan'])."</span>
+                                        </td>
+                                        <td>
+                                            <span class='text-muted'><i class='fa-solid fa-bullhorn me-1'></i> ".htmlspecialchars($row['sumber_info'])."</span>
                                         </td>
                                         <td class='text-nowrap'>".$stars."</td>
                                         <td style='max-width: 300px;'>
@@ -267,7 +274,7 @@ while($r = $q_sumber->fetch_assoc()){
                     "infoEmpty": "Tidak ada data yang tersedia",
                     "paginate": { "first": "Pertama", "last": "Terakhir", "next": "Selanjutnya", "previous": "Sebelumnya" }
                 },
-                "order": [[ 4, "desc" ]]
+                "order": [[ 5, "desc" ]]
             });
 
             const labelLayanan = <?= json_encode($label_layanan) ?>;

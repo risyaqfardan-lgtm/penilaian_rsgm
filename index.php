@@ -325,6 +325,7 @@
                                     <option value="Teman / Keluarga">Rekomendasi Teman / Keluarga</option>
                                     <option value="Website Resmi">Website Resmi Unimus</option>
                                     <option value="Spanduk / Brosur">Spanduk / Brosur</option>
+                                    <option value="Event / Baksos">Event / Baksos</option>
                                     <option value="Lainnya">Lainnya</option>
                                 </select>
                             </div>
